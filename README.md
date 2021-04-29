@@ -3627,6 +3627,8 @@ Other Style Guides
     Number.isFinite(parseInt('2e3', 10)); // true
     ```
 
+## TypeScript
+
 ## Testing: coming soon!
 
 <!--
@@ -3747,6 +3749,7 @@ Other Style Guides
 (The MIT License)
 
 Copyright (c) 2012 Airbnb
+
 Copyright (c) 2021 gotoAndPlay
 
 Permission is hereby granted, free of charge, to any person obtaining
