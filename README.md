@@ -14,53 +14,9 @@ This guide is available in other languages too. See [Translation](#translation)
 
 Other Style Guides
 
-  - [ES5 (Deprecated)](https://github.com/airbnb/javascript/tree/es5-deprecated/es5)
   - [React](react/)
   - [CSS-in-JavaScript](css-in-javascript/)
-  - [CSS & Sass](https://github.com/airbnb/css)
-  - [Ruby](https://github.com/airbnb/ruby)
-
-## Table of Contents
-
-  1. [Types](#types)
-  1. [References](#references)
-  1. [Objects](#objects)
-  1. [Arrays](#arrays)
-  1. [Destructuring](#destructuring)
-  1. [Strings](#strings)
-  1. [Functions](#functions)
-  1. [Arrow Functions](#arrow-functions)
-  1. [Classes & Constructors](#classes--constructors)
-  1. [Modules](#modules)
-  1. [Iterators and Generators](#iterators-and-generators)
-  1. [Properties](#properties)
-  1. [Variables](#variables)
-  1. [Hoisting](#hoisting)
-  1. [Comparison Operators & Equality](#comparison-operators--equality)
-  1. [Blocks](#blocks)
-  1. [Control Statements](#control-statements)
-  1. [Comments](#comments)
-  1. [Whitespace](#whitespace)
-  1. [Commas](#commas)
-  1. [Semicolons](#semicolons)
-  1. [Type Casting & Coercion](#type-casting--coercion)
-  1. [Naming Conventions](#naming-conventions)
-  1. [Accessors](#accessors)
-  1. [Events](#events)
-  1. [jQuery](#jquery)
-  1. [ECMAScript 5 Compatibility](#ecmascript-5-compatibility)
-  1. [ECMAScript 6+ (ES 2015+) Styles](#ecmascript-6-es-2015-styles)
-  1. [Standard Library](#standard-library)
-  1. [Testing](#testing)
-  1. [Performance](#performance)
-  1. [Resources](#resources)
-  1. [In the Wild](#in-the-wild)
-  1. [Translation](#translation)
-  1. [The JavaScript Style Guide Guide](#the-javascript-style-guide-guide)
-  1. [Chat With Us About JavaScript](#chat-with-us-about-javascript)
-  1. [Contributors](#contributors)
-  1. [License](#license)
-  1. [Amendments](#amendments)
+  - [CSS & Sass](https://github.com/gotoandplay/css)
 
 ## Types
 
@@ -101,8 +57,6 @@ Other Style Guides
 
     console.log(foo[0], bar[0]); // => 9, 9
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## References
 
@@ -152,8 +106,6 @@ Other Style Guides
     console.log(a); // ReferenceError
     console.log(b); // ReferenceError
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Objects
 
@@ -325,8 +277,6 @@ Other Style Guides
     const { a, ...noA } = copy; // noA => { b: 2, c: 3 }
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Arrays
 
   <a name="arrays--literals"></a><a name="4.1"></a>
@@ -490,8 +440,6 @@ Other Style Guides
     ];
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Destructuring
 
   <a name="destructuring--object"></a><a name="5.1"></a>
@@ -553,8 +501,6 @@ Other Style Guides
     // the caller selects only the data they need
     const { left, top } = processInput(input);
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Strings
 
@@ -636,8 +582,6 @@ Other Style Guides
     const foo = '\'this\' is "quoted"';
     const foo = `my name is '${name}'`;
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Functions
 
@@ -925,8 +869,6 @@ Other Style Guides
     );
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Arrow Functions
 
   <a name="arrows--use-them"></a><a name="8.1"></a>
@@ -1090,8 +1032,6 @@ Other Style Guides
        bar
     )
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Classes & Constructors
 
@@ -1289,8 +1229,6 @@ Other Style Guides
     }
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Modules
 
   <a name="modules--use-them"></a><a name="10.1"></a>
@@ -1461,8 +1399,6 @@ Other Style Guides
     import baz from './baz';
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Iterators and Generators
 
   <a name="iterators--nope"></a><a name="11.1"></a>
@@ -1575,8 +1511,6 @@ Other Style Guides
     };
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Properties
 
   <a name="properties--dot"></a><a name="12.1"></a>
@@ -1621,8 +1555,6 @@ Other Style Guides
     // good
     const binary = 2 ** 10;
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Variables
 
@@ -1855,8 +1787,6 @@ Other Style Guides
     // 'coords' is now the 'data' object without its 'type' property.
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Hoisting
 
   <a name="hoisting--about"></a><a name="14.1"></a>
@@ -1953,8 +1883,6 @@ Other Style Guides
     ```
 
   - For more information refer to [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting/) by [Ben Cherry](http://www.adequatelygood.com/).
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Comparison Operators & Equality
 
@@ -2137,8 +2065,6 @@ Other Style Guides
     const bar = a + (b / c) * d;
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Blocks
 
   <a name="blocks--braces"></a><a name="16.1"></a>
@@ -2253,8 +2179,6 @@ Other Style Guides
     }
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Control Statements
 
   <a name="control-statements"></a>
@@ -2323,8 +2247,6 @@ Other Style Guides
       startRunning();
     }
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Comments
 
@@ -2464,8 +2386,6 @@ Other Style Guides
       }
     }
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Whitespace
 
@@ -2953,8 +2873,6 @@ Other Style Guides
     ```
     <!-- markdownlint-enable MD012 -->
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Commas
 
   <a name="commas--leading-trailing"></a><a name="19.1"></a>
@@ -3088,8 +3006,6 @@ Other Style Guides
     );
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Semicolons
 
   <a name="semicolons--required"></a><a name="20.1"></a>
@@ -3137,8 +3053,6 @@ Other Style Guides
     ```
 
     [Read more](https://stackoverflow.com/questions/7365172/semicolon-before-self-invoking-function/7365214#7365214).
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Type Casting & Coercion
 
@@ -3228,8 +3142,6 @@ Other Style Guides
     // best
     const hasAge = !!age;
     ```
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Naming Conventions
 
@@ -3468,8 +3380,6 @@ Other Style Guides
     };
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Accessors
 
   <a name="accessors--not-required"></a><a name="23.1"></a>
@@ -3537,8 +3447,6 @@ Other Style Guides
     }
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Events
 
   <a name="events--hash"></a><a name="24.1"></a>
@@ -3567,8 +3475,6 @@ Other Style Guides
       // do something with data.listingID
     });
     ```
-
-  **[⬆ back to top](#table-of-contents)**
 
 ## jQuery
 
@@ -3639,14 +3545,10 @@ Other Style Guides
     $sidebar.find('ul').hide();
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## ECMAScript 5 Compatibility
 
   <a name="es5-compat--kangax"></a><a name="26.1"></a>
   - [27.1](#es5-compat--kangax) Refer to [Kangax](https://twitter.com/kangax/)’s ES5 [compatibility table](https://kangax.github.io/es5-compat-table/).
-
-**[⬆ back to top](#table-of-contents)**
 
 <a name="ecmascript-6-styles"></a>
 ## ECMAScript 6+ (ES 2015+) Styles
@@ -3673,8 +3575,6 @@ Other Style Guides
   - [28.2](#tc39-proposals) Do not use [TC39 proposals](https://github.com/tc39/proposals) that have not reached stage 3.
 
     > Why? [They are not finalized](https://tc39.github.io/process-document/), and they are subject to change or to be withdrawn entirely. We want to use JavaScript, and proposals are not JavaScript yet.
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Standard Library
 
@@ -3714,8 +3614,6 @@ Other Style Guides
     Number.isFinite(parseInt('2e3', 10)); // true
     ```
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Testing: coming soon!
 
 <!--
@@ -3738,8 +3636,6 @@ Other Style Guides
     - Whenever you fix a bug, _write a regression test_. A bug fixed without a regression test is almost certainly going to break again in the future.
 -->
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Performance
 
   - [On Layout & Web Performance](https://www.kellegous.com/j/2013/01/26/layout-performance/)
@@ -3751,8 +3647,6 @@ Other Style Guides
   - [Long String Concatenation](https://jsperf.com/ya-string-concat/38)
   - [Are JavaScript functions like `map()`, `reduce()`, and `filter()` optimized for traversing arrays?](https://www.quora.com/JavaScript-programming-language-Are-Javascript-functions-like-map-reduce-and-filter-already-optimized-for-traversing-array/answer/Quildreen-Motta)
   - Loading...
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Resources
 
@@ -3832,8 +3726,6 @@ Other Style Guides
 
   - [JavaScript Air](https://javascriptair.com/)
   - [JavaScript Jabber](https://devchat.tv/js-jabber/)
-
-**[⬆ back to top](#table-of-contents)**
 
 ## In the Wild
 
@@ -3929,8 +3821,6 @@ Other Style Guides
   - **Zillow**: [zillow/javascript](https://github.com/zillow/javascript)
   - **ZocDoc**: [ZocDoc/javascript](https://github.com/ZocDoc/javascript)
 
-**[⬆ back to top](#table-of-contents)**
-
 ## Translation
 
   This style guide is also available in other languages:
@@ -3988,8 +3878,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-**[⬆ back to top](#table-of-contents)**
 
 ## Amendments
 
