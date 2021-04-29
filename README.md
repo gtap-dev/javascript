@@ -743,8 +743,26 @@ Other Style Guides
     }
     ```
 
-  <a name="functions--constructor"></a><a name="7.10"></a>
-  - [7.10](#functions--constructor) Never use the Function constructor to create a new function. eslint: [`no-new-func`](https://eslint.org/docs/rules/no-new-func)
+  <a name="functions--parameter-count"></a><a name="7.10"></a>
+  - [7.10](#functions--parameter-count) Add as few parameters as possible.
+
+    Having many parameters on a function makes refactoring difficult. If a function has lots of parameters and it cannot be broken down, consider using an options object to combine multiple parameters into one.
+
+    ```javascript
+    // bad
+    function handleThings(name, a, b, c, d, e) {
+      // ...
+    }
+
+    // good
+    function handleThings(name, opts = {}) {
+      const {a, b, c, d, e} = opts;
+      // ...
+    }
+    ```
+
+  <a name="functions--constructor"></a><a name="7.11"></a>
+  - [7.11](#functions--constructor) Never use the Function constructor to create a new function. eslint: [`no-new-func`](https://eslint.org/docs/rules/no-new-func)
 
     > Why? Creating a function in this way evaluates a string similarly to `eval()`, which opens vulnerabilities.
 
@@ -756,8 +774,8 @@ Other Style Guides
     var subtract = Function('a', 'b', 'return a - b');
     ```
 
-  <a name="functions--signature-spacing"></a><a name="7.11"></a>
-  - [7.11](#functions--signature-spacing) Spacing in a function signature. eslint: [`space-before-function-paren`](https://eslint.org/docs/rules/space-before-function-paren) [`space-before-blocks`](https://eslint.org/docs/rules/space-before-blocks)
+  <a name="functions--signature-spacing"></a><a name="7.12"></a>
+  - [7.12](#functions--signature-spacing) Spacing in a function signature. eslint: [`space-before-function-paren`](https://eslint.org/docs/rules/space-before-function-paren) [`space-before-blocks`](https://eslint.org/docs/rules/space-before-blocks)
 
     > Why? Consistency is good, and you shouldn’t have to add or remove a space when adding or removing a name.
 
@@ -772,8 +790,8 @@ Other Style Guides
     const y = function a() {};
     ```
 
-  <a name="functions--mutate-params"></a><a name="7.12"></a>
-  - [7.12](#functions--mutate-params) Never mutate parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
+  <a name="functions--mutate-params"></a><a name="7.13"></a>
+  - [7.13](#functions--mutate-params) Never mutate parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
 
     > Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.
 
@@ -789,8 +807,8 @@ Other Style Guides
     }
     ```
 
-  <a name="functions--reassign-params"></a><a name="7.13"></a>
-  - [7.13](#functions--reassign-params) Never reassign parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
+  <a name="functions--reassign-params"></a><a name="7.14"></a>
+  - [7.14](#functions--reassign-params) Never reassign parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
 
     > Why? Reassigning parameters can lead to unexpected behavior, especially when accessing the `arguments` object. It can also cause optimization issues, especially in V8.
 
@@ -817,8 +835,8 @@ Other Style Guides
     }
     ```
 
-  <a name="functions--spread-vs-apply"></a><a name="7.14"></a>
-  - [7.14](#functions--spread-vs-apply) Prefer the use of the spread operator `...` to call variadic functions. eslint: [`prefer-spread`](https://eslint.org/docs/rules/prefer-spread)
+  <a name="functions--spread-vs-apply"></a><a name="7.15"></a>
+  - [7.15](#functions--spread-vs-apply) Prefer the use of the spread operator `...` to call variadic functions. eslint: [`prefer-spread`](https://eslint.org/docs/rules/prefer-spread)
 
     > Why? It’s cleaner, you don’t need to supply a context, and you can not easily compose `new` with `apply`.
 
@@ -839,7 +857,7 @@ Other Style Guides
     ```
 
   <a name="functions--signature-invocation-indentation"></a>
-  - [7.15](#functions--signature-invocation-indentation) Functions with multiline signatures, or invocations, should be indented just like every other multiline list in this guide: with each item on a line by itself, with a trailing comma on the last item. eslint: [`function-paren-newline`](https://eslint.org/docs/rules/function-paren-newline)
+  - [7.16](#functions--signature-invocation-indentation) Functions with multiline signatures, or invocations, should be indented just like every other multiline list in this guide: with each item on a line by itself, with a trailing comma on the last item. eslint: [`function-paren-newline`](https://eslint.org/docs/rules/function-paren-newline)
 
     ```javascript
     // bad
@@ -3628,6 +3646,227 @@ Other Style Guides
     ```
 
 ## TypeScript
+
+  [TypeScript](https://www.typescriptlang.org/) saves you time catching errors and providing fixes before you run code.
+
+    <a name="typescript-explicit-types"></a>
+  - [30.1](#typescript-explicit-types) Use explicit types everywhere.
+
+    Explicit types make your code self-documenting: they make sure that your variables and functions match what is intended and enable the computer to take care of remembering the surrounding context.
+
+    ```ts
+      // bad
+      // variable declaration
+      const text = 'text';
+      // parameter definition
+      const logsSize = (size) => console.log(size);
+      // array destructuring
+      const [c, d]: [boolean, string] = [true, 'text'];
+      // object destructuring
+      const { length }: { length: number } = 'text';
+      // function variable declaration
+      const c: () => void = (): void => {};
+
+
+      // good
+      // variable declaration
+      const text: string = 'text';
+      // parameter definition
+      const logsSize = (size: number) => console.log(size);
+      // array destructuring
+      const arr: [boolean, string] = [true, 'text'];
+      const [c, d] = arr;
+      // object destructuring
+      const { length } = 'text';
+      // function variable declaration
+      const c = (): void => {};
+    ```
+
+    <a name="typescript--any-vs-unknown"></a>
+  - [30.2](#typescript--any-vs-unknown) Never use `any` type.
+
+      Use `unknown` if you truly don't know the type. `unknown` enforces using type guards to check the actual type of variable, while `any` does not.
+
+      ```ts
+        // bad
+        const foo = (bar: any) => {
+          return bar.test; // possible runtime error, no compile error
+        }
+
+        const foo = (bar: unknown) => {
+          return bar.test; // compile error
+        }
+
+        // good
+        interface TestData {
+            test: string;
+        }
+
+        const barIsTest = (obj: unknown): obj is TestData => {
+            return typeof obj === "object" && !! obj && "test" in obj;
+        }
+
+        const fooUnknown = (bar: unknown) => {
+            if (barIsTest(bar)) {
+                return bar.test; // no compile error
+            }
+            return;
+        }
+      ```
+
+    <a name="typescript--null-vs-undefined"></a>
+  - [30.3](#typescript--null-vs-undefined) `null` vs `undefined`.
+
+    Use `null` type to mark a variable explicitly empty. `undefined` is filled from default values, while `null` is not.
+
+    ```ts
+      interface ButtonData {
+        value?: string | null
+      }
+
+      const renderButton = (data?: ButtonData): string | null => {
+        const {
+          value = 'defaultValue',
+        } = data
+
+        return value;
+      }
+
+      renderButton() // -> "defaultValue"
+      renderButton({ value: 'myValue' }) // -> "myValue"
+      renderButton({ value: null }) // -> null
+      renderButton({ value: undefined }) // -> "defaultValue"
+    ```
+
+    <a name="typescript--function-return-type"></a>
+  - [30.4](#typescript--function-return-type) Explicitly define return types on functions.
+
+    Explicit types for function return values makes it clear to any calling code what type is returned. This ensures that the return value is assigned to a variable of the correct type; or in the case where there is no return value, that the calling code doesn't try to use the undefined value when it shouldn't.
+
+    ```ts
+    // bad - implicit return type
+    const format = (value: number) => {
+      return String(value);
+    }
+
+    // good - explicit return type
+    const format = (value: number): string => {
+      return String(value);
+    }
+
+    ```
+
+    <a name="typescript--type-prefix"></a>
+  - [30.5](#typescript--type-prefix) Do not add prefixes to types and interfaces.
+
+    Types and interfaces should have descriptive, distinct names.
+    It is not necessary to prefix types and interfaces when they are named appropriately.
+
+    ```ts
+      // worst
+      interface IButton {
+        text: string;
+      }
+      type TType = 'primary' | 'secondary';
+
+      // bad
+      interface IButtonProps {
+        text: string;
+      }
+      type TButtonType = 'primary' | 'secondary';
+
+      // good
+      interface ButtonData {
+        text: string;
+      }
+      type ButtonType = 'primary' | 'secondary';
+    ```
+
+    <a name="typescript--type-vs-interface"></a>
+  - [30.6](#typescript--type-vs-interface) `type` vs `interface`.
+
+    Use `interface` instead of `type` for object-like types, wherever possible. Interfaces perform better.
+
+    ```ts
+      // bad
+      type Foo = {
+        foo: string;
+      }
+
+      type Bar = Foo & {
+        bar: string;
+      }
+      // good
+      interface Foo {
+        foo: string;
+      }
+
+      interface Bar extends Foo {
+        bar: string;
+      }
+    ```
+
+    Using types is still OK if the base type is a union, as that cannot be extended as an interface:
+    ```ts
+      // OK
+      interface FooA {
+        fooA: string;
+      }
+      interface FooB {
+        fooB: string;
+      }
+      type Foo = FooA | FooB;
+
+      type Bar = Foo & {
+        bar: string;
+      }
+    ```
+
+    <a name="typescript--export-types"></a>
+  - [30.7](#typescript--export-types) Export types only when they are part of the public API
+
+    ```ts
+      // This should be exported because render function is exported.
+      export interface RenderData {
+        text: string;
+      }
+
+      export const render = (data: RenderData) => {
+        return format({ text: data.text });
+      });
+
+      // This should not be exported because it is used in an internal function that is not exported.
+      interface FormatData = {
+        text: string;
+      }
+
+      const format = (data: FormatData) => data.text;
+    ```
+
+    <a name="typescript--using-modifiers"></a>
+  - [30.8](#typescript--using-modifiers) Using modifiers
+
+    Access modifiers is a tool to help you to prevent accidentally breaking encapsulation. Ask yourself if you intend the member to be something that's internal to the class, class hierarchy or public, and choose access level accordingly.
+
+    Examples:
+      - A field `internalCounter` should probably be private since it's mutable and an implementation detail.
+      - An internal `beforeRender()` method called right before rendering and used as a hook in subclasses should be protected.
+      - A `render()` method which is called from external code should be public.
+
+    ```ts
+      class Foo {
+        private renderCounter: number = 0;
+
+        public render(): void {
+            this.beforeRender();
+            // render
+        }
+
+        protected beforeRender(): void {
+            this.renderCounter += 1;
+        }
+      }
+    ```
 
 ## Testing: coming soon!
 
