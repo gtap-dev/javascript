@@ -1,4 +1,6 @@
-# Airbnb JavaScript Style Guide() {
+# gotoAndPlay JavaScript Style Guide() {
+
+Based on Airbnb [JavaScript Style Guide](https://github.com/airbnb/javascript).
 
 *A mostly reasonable approach to JavaScript*
 
@@ -199,7 +201,6 @@ Other Style Guides
     // bad
     const atom = {
       value: 1,
-
       addValue: function (value) {
         return atom.value + value;
       },
@@ -208,8 +209,7 @@ Other Style Guides
     // good
     const atom = {
       value: 1,
-
-      addValue(value) {
+      addValue: (value) => {
         return atom.value + value;
       },
     };
@@ -513,11 +513,6 @@ Other Style Guides
       const { firstName, lastName } = user;
       return `${firstName} ${lastName}`;
     }
-
-    // best
-    function getFullName({ firstName, lastName }) {
-      return `${firstName} ${lastName}`;
-    }
     ```
 
   <a name="destructuring--array"></a><a name="5.2"></a>
@@ -667,6 +662,12 @@ Other Style Guides
     const short = function longUniqueMoreDescriptiveLexicalFoo() {
       // ...
     };
+
+    // best
+    // using arrow functions
+    const short = longUniqueMoreDescriptiveLexicalFoo = () => {
+      // ...
+    }
     ```
 
   <a name="functions--iife"></a><a name="7.2"></a>
@@ -2469,22 +2470,22 @@ Other Style Guides
 ## Whitespace
 
   <a name="whitespace--spaces"></a><a name="18.1"></a>
-  - [19.1](#whitespace--spaces) Use soft tabs (space character) set to 2 spaces. eslint: [`indent`](https://eslint.org/docs/rules/indent.html)
+  - [19.1](#whitespace--spaces) Use soft tabs (space character) set to 4 spaces. eslint: [`indent`](https://eslint.org/docs/rules/indent.html)
 
     ```javascript
-    // bad
-    function foo() {
-    ∙∙∙∙let name;
-    }
-
     // bad
     function bar() {
     ∙let name;
     }
 
-    // good
+    // bad
     function baz() {
     ∙∙let name;
+    }
+
+    // good
+    function foo() {
+    ∙∙∙∙let name;
     }
     ```
 
@@ -3571,18 +3572,20 @@ Other Style Guides
 
 ## jQuery
 
+  [You might not need jQuery](http://youmightnotneedjquery.com/). Think twice before using jQuery for something that is available for use via native DOM APIs.
+
   <a name="jquery--dollar-prefix"></a><a name="25.1"></a>
-  - [26.1](#jquery--dollar-prefix) Prefix jQuery object variables with a `$`.
+  - [26.1](#jquery--dollar-prefix) Do not prefix jQuery object variables with a `$`.
 
     ```javascript
     // bad
-    const sidebar = $('.sidebar');
-
-    // good
     const $sidebar = $('.sidebar');
 
-    // good
+    // bad
     const $sidebarBtn = $('.sidebar-btn');
+
+    // good
+    const sidebar = $('.sidebar');
     ```
 
   <a name="jquery--cache"></a><a name="25.2"></a>
@@ -3713,8 +3716,9 @@ Other Style Guides
 
 **[⬆ back to top](#table-of-contents)**
 
-## Testing
+## Testing: coming soon!
 
+<!--
   <a name="testing--yup"></a><a name="28.1"></a>
   - [30.1](#testing--yup) **Yup.**
 
@@ -3732,6 +3736,7 @@ Other Style Guides
     - We primarily use [`mocha`](https://www.npmjs.com/package/mocha) and [`jest`](https://www.npmjs.com/package/jest) at Airbnb. [`tape`](https://www.npmjs.com/package/tape) is also used occasionally for small, separate modules.
     - 100% test coverage is a good goal to strive for, even if it’s not always practical to reach it.
     - Whenever you fix a bug, _write a regression test_. A bug fixed without a regression test is almost certainly going to break again in the future.
+-->
 
 **[⬆ back to top](#table-of-contents)**
 
