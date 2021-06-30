@@ -586,11 +586,9 @@ Other Style Guides
 ## Functions
 
   <a name="functions--declarations"></a><a name="7.1"></a>
-  - [7.1](#functions--declarations) Use named function expressions instead of function declarations. eslint: [`func-style`](https://eslint.org/docs/rules/func-style)
+  - [7.1](#functions--declarations) Avoid function declarations, prefer arrow functions. eslint: [`func-style`](https://eslint.org/docs/rules/func-style)
 
-    <!-- TODO: maybe this is not very important? -->
-
-    > Why? Function declarations are hoisted, which means that it’s easy - too easy - to reference the function before it is defined in the file. This harms readability and maintainability. If you find that a function’s definition is large or complex enough that it is interfering with understanding the rest of the file, then perhaps it’s time to extract it to its own module! Don’t forget to explicitly name the expression, regardless of whether or not the name is inferred from the containing variable (which is often the case in modern browsers or when using compilers such as Babel). This eliminates any assumptions made about the Error’s call stack. ([Discussion](https://github.com/airbnb/javascript/issues/794))
+    > Why? Function declarations are hoisted, which means that it’s easy - too easy - to reference the function before it is defined in the file. This harms readability and maintainability. If you find that a function’s definition is large or complex enough that it is interfering with understanding the rest of the file, then perhaps it’s time to extract it to its own module!
 
     ```javascript
     // bad
@@ -598,22 +596,15 @@ Other Style Guides
       // ...
     }
 
-    // bad
+    // good: function expression instead of function declaration
     const foo = function () {
       // ...
     };
 
-    // good
-    // lexical name distinguished from the variable-referenced invocation(s)
-    const short = function longUniqueMoreDescriptiveLexicalFoo() {
+    // best: arrow function
+    const foo = () => {
       // ...
     };
-
-    // best
-    // using arrow functions
-    const short = longUniqueMoreDescriptiveLexicalFoo = () => {
-      // ...
-    }
     ```
 
   <a name="functions--iife"></a><a name="7.2"></a>
