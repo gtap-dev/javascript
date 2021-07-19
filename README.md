@@ -1918,7 +1918,7 @@ Other Style Guides
     ```
 
   <a name="comparison--shortcuts"></a><a name="15.3"></a>
-  - [15.3](#comparison--shortcuts) Use shortcuts for booleans, but explicit comparisons for strings and numbers.
+  - [15.3](#comparison--shortcuts) Use shortcuts in conditions.
 
     ```javascript
     // bad
@@ -1931,23 +1931,38 @@ Other Style Guides
       // ...
     }
 
-    // bad
-    if (name) {
-      // ...
-    }
-
-    // good
+    // bad - the value might also be null or undefined
     if (name !== '') {
       // ...
     }
 
+    // good - this avoids empty strings and all other falsy values
+    if (name) {
+      // ...
+    }
+
     // bad
-    if (collection.length) {
+    if (collection.length > 0) {
       // ...
     }
 
     // good
-    if (collection.length > 0) {
+    if (collection.length) {
+      // ...
+    }
+
+    // ok - negative numbers are truthy, only 0 is falsy
+    if (possiblyNegativeNumber > 0) {
+      // ...
+    }
+
+    // good, but keep in mind that an empty array is also truthy in JavaScript (unlike in PHP, for example)
+    if (collection) {
+      // ...
+    }
+
+    // best - ensures the array is neither falsy nor empty
+    if (collection?.length) {
       // ...
     }
     ```
