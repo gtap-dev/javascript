@@ -1240,6 +1240,33 @@ Other Style Guides
     }
     ```
 
+  <a name="classes--no-constructor-return"></a>
+  - [9.8](#classes--no-constructor-return) Don't use return statements inside constructors. We always expect a constructor to return the constructed instance. eslint: [`no-constructor-return`](https://eslint.org/docs/rules/no-constructor-return)
+
+    ```javascript
+    // bad
+    class gotoAndDevelop {
+      constructor(env) {
+        // Do something with env
+        // ...
+        return this.getCompilers();
+      }
+      // ...
+    }
+    const compilers = new gotoAndDevelop(env);
+
+    // good
+    class gotoAndDevelop {
+      constructor(env) {
+        // Do something with env
+        // Don't return anything
+      }
+      // ...
+    }
+    const dev = new gotoAndDevelop(env);
+    const compilers = dev.getCompilers();
+    ```
+
 ## Modules
 
   <a name="modules--use-them"></a><a name="10.1"></a>
