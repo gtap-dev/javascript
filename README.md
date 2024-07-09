@@ -1323,17 +1323,18 @@ Other Style Guides
     export { foo };
     ```
 
-  <a name="modules--prefer-default-export"></a>
-  - [10.6](#modules--prefer-default-export) In modules with a single export, prefer default export over named export.
- eslint: [`import/prefer-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md)
-    > Why? To encourage more files that only ever export one thing, which is better for readability and maintainability.
+  <a name="modules--no-default-export"></a>
+  - [10.6](#modules--no-default-export) Avoid default exports, always use named exports.
+ eslint: [`import/no-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md)
+    > Why? There will almost always be named exports in a project, especially in TypeScript code where a single file often exports one or more types in addition to the primary value. For the sake of consistency, avoid mixing default and named exports/imports.
+    > Named exports also provide unambiguous variable names for automatic imports, whereas additional conventions are needed with default exports.
 
     ```javascript
     // bad
-    export function foo() {}
+    export default function foo() {}
 
     // good
-    export default function foo() {}
+    export function foo() {}
     ```
 
   <a name="modules--imports-first"></a>
