@@ -109,7 +109,7 @@ Other Style Guides
 
 ## Objects
 
-  <a name="objects--no-new"></a><a name="3.1"></a>
+  <a name="objects--no-new"></a>
   - [3.1](#objects--no-new) Use the literal syntax for object creation. eslint: [`no-new-object`](https://eslint.org/docs/rules/no-new-object.html)
 
     ```javascript
@@ -120,7 +120,7 @@ Other Style Guides
     const item = {};
     ```
 
-  <a name="es6-computed-properties"></a><a name="3.4"></a>
+  <a name="es6-computed-properties"></a>
   - [3.2](#es6-computed-properties) Use computed property names when creating objects with dynamic property names.
 
     > Why? They allow you to define all the properties of an object in one place.
@@ -146,7 +146,7 @@ Other Style Guides
     };
     ```
 
-  <a name="es6-object-shorthand"></a><a name="3.5"></a>
+  <a name="es6-object-shorthand"></a>
   - [3.3](#es6-object-shorthand) Use object method shorthand. eslint: [`object-shorthand`](https://eslint.org/docs/rules/object-shorthand.html)
 
     ```javascript
@@ -167,7 +167,7 @@ Other Style Guides
     };
     ```
 
-  <a name="es6-object-concise"></a><a name="3.6"></a>
+  <a name="es6-object-concise"></a>
   - [3.4](#es6-object-concise) Use property value shorthand. eslint: [`object-shorthand`](https://eslint.org/docs/rules/object-shorthand.html)
 
     > Why? It is shorter and descriptive.
@@ -186,38 +186,8 @@ Other Style Guides
     };
     ```
 
-  <a name="objects--grouped-shorthand"></a><a name="3.7"></a>
-  - [3.5](#objects--grouped-shorthand) Group your shorthand properties at the beginning of your object declaration.
-
-    > Why? It’s easier to tell which properties are using the shorthand.
-
-    ```javascript
-    const anakinSkywalker = 'Anakin Skywalker';
-    const lukeSkywalker = 'Luke Skywalker';
-
-    // bad
-    const obj = {
-      episodeOne: 1,
-      twoJediWalkIntoACantina: 2,
-      lukeSkywalker,
-      episodeThree: 3,
-      mayTheFourth: 4,
-      anakinSkywalker,
-    };
-
-    // good
-    const obj = {
-      lukeSkywalker,
-      anakinSkywalker,
-      episodeOne: 1,
-      twoJediWalkIntoACantina: 2,
-      episodeThree: 3,
-      mayTheFourth: 4,
-    };
-    ```
-
-  <a name="objects--quoted-props"></a><a name="3.8"></a>
-  - [3.6](#objects--quoted-props) Only quote properties that are invalid identifiers. eslint: [`quote-props`](https://eslint.org/docs/rules/quote-props.html)
+  <a name="objects--quoted-props"></a>
+  - [3.5](#objects--quoted-props) Only quote properties that are invalid identifiers. eslint: [`quote-props`](https://eslint.org/docs/rules/quote-props.html)
 
     > Why? In general we consider it subjectively easier to read. It improves syntax highlighting, and is also more easily optimized by many JS engines.
 
@@ -238,7 +208,7 @@ Other Style Guides
     ```
 
   <a name="objects--prototype-builtins"></a>
-  - [3.7](#objects--prototype-builtins) Do not call `Object.prototype` methods directly, such as `hasOwnProperty`, `propertyIsEnumerable`, and `isPrototypeOf`. eslint: [`no-prototype-builtins`](https://eslint.org/docs/rules/no-prototype-builtins)
+  - [3.6](#objects--prototype-builtins) Do not call `Object.prototype` methods directly, such as `hasOwnProperty`, `propertyIsEnumerable`, and `isPrototypeOf`. eslint: [`no-prototype-builtins`](https://eslint.org/docs/rules/no-prototype-builtins)
 
     > Why? These methods may be shadowed by properties on the object in question - consider `{ hasOwnProperty: false }` - or, the object may be a null object (`Object.create(null)`).
 
@@ -258,7 +228,7 @@ Other Style Guides
     ```
 
   <a name="objects--rest-spread"></a>
-  - [3.8](#objects--rest-spread) Prefer the object spread operator over [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted. eslint: [`prefer-object-spread`](https://eslint.org/docs/rules/prefer-object-spread)
+  - [3.7](#objects--rest-spread) Prefer the object spread operator over [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted. eslint: [`prefer-object-spread`](https://eslint.org/docs/rules/prefer-object-spread)
 
     ```javascript
     // very bad
@@ -1240,6 +1210,33 @@ Other Style Guides
     }
     ```
 
+  <a name="classes--no-constructor-return"></a>
+  - [9.8](#classes--no-constructor-return) Don't use return statements inside constructors. We always expect a constructor to return the constructed instance. eslint: [`no-constructor-return`](https://eslint.org/docs/rules/no-constructor-return)
+
+    ```javascript
+    // bad
+    class gotoAndDevelop {
+      constructor(env) {
+        // Do something with env
+        // ...
+        return this.getCompilers();
+      }
+      // ...
+    }
+    const compilers = new gotoAndDevelop(env);
+
+    // good
+    class gotoAndDevelop {
+      constructor(env) {
+        // Do something with env
+        // Don't return anything
+      }
+      // ...
+    }
+    const dev = new gotoAndDevelop(env);
+    const compilers = dev.getCompilers();
+    ```
+
 ## Modules
 
   <a name="modules--use-them"></a><a name="10.1"></a>
@@ -1326,17 +1323,18 @@ Other Style Guides
     export { foo };
     ```
 
-  <a name="modules--prefer-default-export"></a>
-  - [10.6](#modules--prefer-default-export) In modules with a single export, prefer default export over named export.
- eslint: [`import/prefer-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md)
-    > Why? To encourage more files that only ever export one thing, which is better for readability and maintainability.
+  <a name="modules--no-default-export"></a>
+  - [10.6](#modules--no-default-export) Avoid default exports, always use named exports.
+ eslint: [`import/no-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md)
+    > Why? There will almost always be named exports in a project, especially in TypeScript code where a single file often exports one or more types in addition to the primary value. For the sake of consistency, avoid mixing default and named exports/imports.
+    > Named exports also provide unambiguous variable names for automatic imports, whereas additional conventions are needed with default exports.
 
     ```javascript
     // bad
-    export function foo() {}
+    export default function foo() {}
 
     // good
-    export default function foo() {}
+    export function foo() {}
     ```
 
   <a name="modules--imports-first"></a>
@@ -2095,14 +2093,14 @@ Other Style Guides
 ## Blocks
 
   <a name="blocks--braces"></a><a name="16.1"></a>
-  - [16.1](#blocks--braces) Use braces with all multiline blocks. eslint: [`nonblock-statement-body-position`](https://eslint.org/docs/rules/nonblock-statement-body-position)
+  - [16.1](#blocks--braces) Use braces with all blocks. eslint: [`curly`](https://eslint.org/docs/rules/curly)
 
     ```javascript
     // bad
     if (test)
       return false;
 
-    // good
+    // bad
     if (test) return false;
 
     // good
@@ -3874,6 +3872,40 @@ Other Style Guides
         }
       }
     ```
+
+    <a name="typescript--property-order"></a>
+  - [30.9](#typescript--property-order) Property order
+
+    In object literals, prefer the same property order as in the interface declaration.
+
+    ```ts
+    interface TextField {
+      id: string;
+      value: string;
+      onChange: (newValue: string) => void;
+      attributes?: Attributes;
+    }
+
+    // bad
+    const textField: TextField = {
+      attributes,
+      value: 'foo',
+      id: 'bar',
+      onChange: handleChange,
+    };
+
+    // good
+    const textField: TextField = {
+      id: 'bar',
+      value: 'foo',
+      onChange: handleChange,
+      attributes,
+    };
+    ```
+
+    Note: this may become less clear in certain situations, for example when one interface extends another.
+
+    Therefore it is not always a strictly enforcable rule - simply try to order the properties in a way that feels "natural".
 
 ## Testing: coming soon!
 
