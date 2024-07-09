@@ -1956,7 +1956,8 @@ Other Style Guides
       // ...
     }
 
-    // good, but keep in mind that an empty array is also truthy in JavaScript (unlike in PHP, for example)
+    // bad - can be misleading since an empty array is truthy in JS, but
+    // falsy in PHP, for example
     if (collection) {
       // ...
     }
