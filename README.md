@@ -1410,8 +1410,8 @@ Other Style Guides
 
 ## Iterators and Generators
 
-  <a name="iterators--nope"></a><a name="11.1"></a>
-  - [11.1](#iterators--nope) Don’t use iterators. Prefer JavaScript’s higher-order functions instead of loops like `for-in` or `for-of`. eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
+  <a name="prefer-hof"></a><a name="11.1"></a>
+  - [11.1](#prefer-hof) Prefer JavaScript’s higher-order functions instead of `for` loops. eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
 
     > Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.
 
@@ -1421,37 +1421,101 @@ Other Style Guides
     const numbers = [1, 2, 3, 4, 5];
 
     // bad
-    let sum = 0;
-    for (let num of numbers) {
-      sum += num;
-    }
-    sum === 15;
-
-    // good
-    let sum = 0;
-    numbers.forEach((num) => {
-      sum += num;
-    });
-    sum === 15;
-
-    // best (use the functional force)
-    const sum = numbers.reduce((total, num) => total + num, 0);
-    sum === 15;
-
-    // bad
     const increasedByOne = [];
     for (let i = 0; i < numbers.length; i++) {
-      increasedByOne.push(numbers[i] + 1);
+        increasedByOne.push(numbers[i] + 1);
     }
 
     // good
-    const increasedByOne = [];
-    numbers.forEach((num) => {
-      increasedByOne.push(num + 1);
+    const increasedByOne = numbers.map((num) => num + 1);
+
+    // bad
+    const evenNumbers = [];
+    for (const num of numbers) {
+        if (num % 2 === 0) {
+            evenNumbers.push(num);
+        }
+    }
+
+    // good
+    const evenNumbers = numbers.filter((num) => num % 2 === 0);
+
+    // bad
+    let anyEvenNumbers = false;
+    for (const num of numbers) {
+        if (num % 2 === 0) {
+            anyEvenNumbers = true;
+            break;
+        }
+    }
+
+    // good
+    const anyEvenNumbers = numbers.some((num) => num % 2 === 0);
+
+    // bad
+    let sum = 0;
+    for (let num of numbers) {
+        sum += num;
+    }
+    sum === 15;
+
+    // good
+    const sum = numbers.reduce((total, num) => total + num, 0);
+    sum === 15;
+    ```
+
+    > Avoid side effects in functions that should be pure.
+
+    ```javascript
+    // bad
+    const increasedByOne = numbers.map((num) => {
+        if (num === 3) {
+            sendEmail();
+        }
+
+        return num + 1;
     });
 
-    // best (keeping it functional)
+    // good - side effect is separated from pure function
     const increasedByOne = numbers.map((num) => num + 1);
+
+    if (numbers.includes(3)) {
+        sendEmail();
+    }
+    ```
+
+    > Do not use `for-in` loops.
+    >
+    > First, look for an array method that might do what you need.
+    >
+    > If you don't find one, use `.forEach()` or a `for-of` loop instead.
+
+    ```javascript
+    // bad - don't use for-in
+    for (let num in numbers) {
+        console.log(num);
+    }
+
+    // bad - should use .reduce() like above
+    let sum = 0;
+    numbers.forEach((num) => sum += num);
+
+    // good - iterating with side effects should use forEach
+    numbers.forEach((num) => console.log(num));
+    ```
+
+    > Prefer `.forEach()` at the end of an array method "chain" over a `for-of` loop
+
+    ```javascript
+    // bad
+    for (const num of numbers.filter((num) => num % 2 === 0).map((num) => num * 5)) {
+        console.log(num);
+    }
+
+    // good
+    numbers.filter((num) => num % 2 === 0)
+        .map((num) => num * 5)
+        .forEach((num) => console.log(num));
     ```
 
   <a name="generators--nope"></a><a name="11.2"></a>
