@@ -14,8 +14,6 @@ This guide is available in other languages too. See [Translation](#translation)
 
 Other Style Guides
 
-  - [React](react/)
-  - [CSS-in-JavaScript](css-in-javascript/)
   - [CSS & Sass](https://github.com/gotoandplay/css)
 
 ## Types
