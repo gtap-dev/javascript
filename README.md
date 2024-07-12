@@ -1411,7 +1411,7 @@ Other Style Guides
 ## Iterators and Generators
 
   <a name="prefer-hof"></a><a name="11.1"></a>
-  - [11.1](#prefer-hof) Prefer JavaScript’s higher-order functions instead of `for` loops. eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
+  - [11.1](#prefer-hof) Prefer JavaScript’s higher-order functions instead of iteration.
 
     > Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.
 
@@ -1431,11 +1431,11 @@ Other Style Guides
 
     // bad
     const evenNumbers = [];
-    for (const num of numbers) {
+    numbers.forEach((num) => {
         if (num % 2 === 0) {
             evenNumbers.push(num);
         }
-    }
+    });
 
     // good
     const evenNumbers = numbers.filter((num) => num % 2 === 0);
@@ -1484,7 +1484,7 @@ Other Style Guides
     }
     ```
 
-    > Do not use `for-in` loops.
+    > Do not use `for-in` loops. eslint: [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
     >
     > First, look for an array method that might do what you need.
     >
