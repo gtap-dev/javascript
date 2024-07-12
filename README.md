@@ -752,19 +752,32 @@ Other Style Guides
     ```
 
   <a name="functions--mutate-params"></a><a name="7.13"></a>
-  - [7.13](#functions--mutate-params) Never mutate parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
+  - [7.13](#functions--mutate-params) Avoid mutating parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
 
     > Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.
 
     ```javascript
-    // bad
-    function f1(obj) {
-      obj.key = 1;
+    // bad - the caller wouldn't expect order to be modified
+    function isFree(order) {
+        order.total = calculateTotal(order);
+        return order.total === 0;
     }
 
     // good
-    function f2(obj) {
-      const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1;
+    function isFree(order) {
+        const total = calculateTotal(order);
+        return total === 0;
+    }
+    ```
+
+    > Exceptions are allowed if they are communicated clearly.
+
+    ```javascript
+    // good - the name makes it clear that we modify the lineItem
+    function setLineItemTotals(lineItem, totalWithoutVat) {
+        lineItem.totalWithoutVat = totalWithoutVat;
+        lineItem.vatAmount = calculateVat(totalWithoutVat);
+        lineItem.totalWithVat = totalWithoutVat + lineItem.vatAmount;
     }
     ```
 
