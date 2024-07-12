@@ -1464,10 +1464,11 @@ Other Style Guides
     sum === 15;
     ```
 
-    > Avoid side effects in functions that should be pure.
+    > Avoid side effects in functions that should be pure, such as callbacks
+    > passed to methods like `.map()`, `.filter()` etc.
 
     ```javascript
-    // bad
+    // bad - we expect .map() to return a new array without side effects
     const increasedByOne = numbers.map((num) => {
         if (num === 3) {
             sendEmail();
