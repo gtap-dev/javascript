@@ -1501,7 +1501,7 @@ Other Style Guides
     let sum = 0;
     numbers.forEach((num) => sum += num);
 
-    // good - iterating with side effects should use forEach
+    // good - iteration is suitable for side effects
     numbers.forEach((num) => console.log(num));
     ```
 
