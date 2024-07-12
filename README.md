@@ -2027,18 +2027,49 @@ Other Style Guides
 
     ```javascript
     // bad
-    const foo = a ? a : b;
     const bar = c ? true : false;
     const baz = c ? false : true;
+    const foo = a ? a : b;
 
     // good
-    const foo = a || b;
     const bar = !!c;
     const baz = !c;
+
+    // good if you want to use b when a is any falsy value (including 0 and '')
+    const foo = a || b;
+
+    // good if you want to use b ONLY when a is undefined or null
+    const foo = a ?? b;
+
+    // bad
+    const values = values ? values.map((value) => value.isValid()) : [];
+
+    // good (assuming values is either an array or undefined or null)
+    const values = (values ?? []).map((value) => value.isValid());
+    ```
+
+  <a name="comparison--optional-chaining"></a>
+  - [15.8](#comparison--optional-chaining) Use the optional chaining operator `?.` instead of a chain of `&&`.
+
+    ```javascript
+    // bad
+    const authorName = comment && comment.post && comment.post.author && comment.post.author.name;
+
+    // good
+    const authorName = comment?.post?.author?.name;
+
+    // bad
+    if (data && data.order && data.order.isCompleted()) {
+
+    // good
+    if (data?.order?.isCompleted()) {
+
+    // good
+    for (const item of data?.order?.getItems() ?? []) {
     ```
 
   <a name="comparison--no-mixed-operators"></a>
-  - [15.8](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators: `+`, `-`, and `**` since their precedence is broadly understood. We recommend enclosing `/` and `*` in parentheses because their precedence can be ambiguous when they are mixed.
+  - [15.9](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators: `+`, `-`, and `**` since their precedence is broadly understood. We recommend enclosing `/` and `*` in parentheses because their precedence can be ambiguous when they are mixed.
   eslint: [`no-mixed-operators`](https://eslint.org/docs/rules/no-mixed-operators.html)
 
     > Why? This improves readability and clarifies the developer’s intention.
