@@ -3806,26 +3806,8 @@ Other Style Guides
       renderButton({ value: undefined }) // -> "defaultValue"
     ```
 
-  <a name="typescript--function-return-type"></a>
-  - [30.6](#typescript--function-return-type) Explicitly define return types on functions.
-
-    Explicit types for function return values makes it clear to any calling code what type is returned. This ensures that the return value is assigned to a variable of the correct type; or in the case where there is no return value, that the calling code doesn't try to use the undefined value when it shouldn't.
-
-    ```ts
-    // bad - implicit return type
-    const format = (value: number) => {
-      return String(value);
-    }
-
-    // good - explicit return type
-    const format = (value: number): string => {
-      return String(value);
-    }
-
-    ```
-
   <a name="typescript--type-prefix"></a>
-  - [30.7](#typescript--type-prefix) Do not add prefixes to types and interfaces.
+  - [30.6](#typescript--type-prefix) Do not add prefixes to types and interfaces.
 
     Types and interfaces should have descriptive, distinct names.
     It is not necessary to prefix types and interfaces when they are named appropriately.
@@ -3851,7 +3833,7 @@ Other Style Guides
     ```
 
   <a name="typescript--type-vs-interface"></a>
-  - [30.8](#typescript--type-vs-interface) `type` vs `interface`.
+  - [30.7](#typescript--type-vs-interface) `type` vs `interface`.
 
     Use `interface` instead of `type` for object-like types, wherever possible. Interfaces perform better.
 
@@ -3891,7 +3873,7 @@ Other Style Guides
     ```
 
   <a name="typescript--export-types"></a>
-  - [30.9](#typescript--export-types) Export types only when they are part of the public API
+  - [30.8](#typescript--export-types) Export types only when they are part of the public API
 
     ```ts
       // This should be exported because render function is exported.
@@ -3912,7 +3894,7 @@ Other Style Guides
     ```
 
   <a name="typescript--using-modifiers"></a>
-  - [30.10](#typescript--using-modifiers) Using modifiers
+  - [30.9](#typescript--using-modifiers) Using modifiers
 
     Access modifiers is a tool to help you to prevent accidentally breaking encapsulation. Ask yourself if you intend the member to be something that's internal to the class, class hierarchy or public, and choose access level accordingly.
 
@@ -3937,7 +3919,7 @@ Other Style Guides
     ```
 
   <a name="typescript--property-order"></a>
-  - [30.11](#typescript--property-order) Property order
+  - [30.10](#typescript--property-order) Property order
 
     In object literals, prefer the same property order as in the interface declaration.
 
