@@ -3591,41 +3591,120 @@ Other Style Guides
 
   [TypeScript](https://www.typescriptlang.org/) saves you time catching errors and providing fixes before you run code.
 
-    <a name="typescript-explicit-types"></a>
-  - [30.1](#typescript-explicit-types) Use explicit types everywhere.
+  <a name="typescript-strict-mode"></a>
+  - [30.1](#typescript-strict-mode) Use [strict](https://www.typescriptlang.org/tsconfig/#strict) mode in TypeScript.
 
-    Explicit types make your code self-documenting: they make sure that your variables and functions match what is intended and enable the computer to take care of remembering the surrounding context.
+    Set `"strict": true,` in your `tsconfig.json` to catch subtle bugs and enforce best practices.
+
+  <a name="typescript-return-obj"></a>
+  - [30.2](#typescript-return-obj) Specify return types for functions that return object literals. eslint: [`require-return-types-for-object-literals`](https://github.com/bytescale/eslint-plugin-return-types-object-literals)
+
+    This helps to catch bugs when you accidentally include extraneous properties in a directly returned object literal.
+
+    For example, in this code, TypeScript won't help you catch the slightly different property name:
 
     ```ts
-      // bad
-      // variable declaration
-      const text = 'text';
-      // parameter definition
-      const logsSize = (size) => console.log(size);
-      // array destructuring
-      const [c, d]: [boolean, string] = [true, 'text'];
-      // object destructuring
-      const { length }: { length: number } = 'text';
-      // function variable declaration
-      const c: () => void = (): void => {};
+    interface User {
+        name: string
+        isDisabled?: boolean
+    }
 
-
-      // good
-      // variable declaration
-      const text: string = 'text';
-      // parameter definition
-      const logsSize = (size: number) => console.log(size);
-      // array destructuring
-      const arr: [boolean, string] = [true, 'text'];
-      const [c, d] = arr;
-      // object destructuring
-      const { length } = 'text';
-      // function variable declaration
-      const c = (): void => {};
+    const createUser = () => ({ name: 'Steve', disabled: true })
+    const user: User = createUser()
     ```
 
-    <a name="typescript--any-vs-unknown"></a>
-  - [30.2](#typescript--any-vs-unknown) Never use `any` type.
+    Also, searching for all usages of the `name` property in an IDE would not list this function. Neither would you be able to navigate to the definition from the property in the literal.
+
+    But if you specify the return type - `const createUser = (): User => ...` - the error is caught and code navigation works as expected.
+
+    ```ts
+    // bad
+    const fn = () => {
+        return { foo: 'bar' };
+    };
+
+    // good
+    const fn = (): Foo => {
+        return { foo: 'bar' };
+    };
+
+    // bad
+    const fn = () => ({ foo: 'bar' });
+
+    // good
+    const fn = (): Foo => ({ foo: 'bar' });
+
+    // ok - we're returning a typed variable instead of a literal
+    const fn = () => {
+        const foo: Foo = { foo: 'bar' };
+        return foo;
+    };
+
+    // ok - we're not returning an object literal
+    const fn1 = () => 'foo'; // string literal
+    const fn2 = () => foo; // variable - may hold an object
+    const fn3 = () => foo(); // expression - may evaluate to an object
+    ```
+
+  <a name="typescript-excessive-typedefs"></a>
+  - [30.3](#typescript-excessive-typedefs) Avoid excessive type annotations.
+
+    There are cases where annotating code elements with explicit types is highly
+    useful or even necessary, for example:
+    - Function parameters
+    - Return types of some functions, such as:
+        - Module boundaries (exported functions)
+        - The scenario described [above](#typescript-return-obj)
+    - Where TypeScript is unable to infer the correct type
+    - Where it improves code readability and/or type checking performance
+
+    However, too much of a good thing can be a bad thing.
+
+    Use of the [ESLint typedef rule](https://github.com/typescript-eslint/typescript-eslint/blob/v4.28.1/packages/eslint-plugin/docs/rules/typedef.md) is discouraged, even by its own documentation:
+
+    > ***Note:*** requiring type annotations unnecessarily can be cumbersome to maintain and generally reduces code readability. TypeScript is often better at inferring types than easily written type annotations would allow.
+    >
+    > **Instead of enabling `typedef`, it is generally recommended to use the `--noImplicitAny` and `--strictPropertyInitialization` compiler options to enforce type annotations only when useful.**
+
+    Both of the recommended compiler options are enabled in [strict mode](#typescript-strict-mode).
+
+    When tools like TypeScript and ESLint allow either specifying or omitting
+    the type, use your best judgement and these examples to decide:
+
+    ```ts
+    // good
+    const text = 'text';
+    const value = 42;
+    const [first, second] = array;
+    const { name, role } = user;
+
+    // unnecessary in most cases
+    const text: string = 'text';
+    const value: number = 42;
+    const [first, second]: [string, string] = array;
+    const { name, role }: { name: string, role: string } = user;
+
+    // bad (and an error in TypeScript strict mode)
+    const logSize = (size) => console.log(size);
+
+    // good
+    const logSize = (size: number) => console.log(size);
+
+    // good
+    const logSize = (size: number): void => console.log(size);
+
+    // bad
+    const logSize: (size: number) => void = (size: number): void => console.log(size);
+
+    // good
+    strings.map((str) => str.length);
+
+    // unnecessary in most cases
+    strings.map((str: string) => str.length);
+    ```
+
+  <a name="typescript--any-vs-unknown"></a>
+  - [30.4](#typescript--any-vs-unknown) Never use `any` type.
 
       Use `unknown` if you truly don't know the type. `unknown` enforces using type guards to check the actual type of variable, while `any` does not.
 
@@ -3656,8 +3735,8 @@ Other Style Guides
         }
       ```
 
-    <a name="typescript--null-vs-undefined"></a>
-  - [30.3](#typescript--null-vs-undefined) `null` vs `undefined`.
+  <a name="typescript--null-vs-undefined"></a>
+  - [30.5](#typescript--null-vs-undefined) `null` vs `undefined`.
 
     Use `null` type to mark a variable explicitly empty. `undefined` is filled from default values, while `null` is not.
 
@@ -3680,26 +3759,8 @@ Other Style Guides
       renderButton({ value: undefined }) // -> "defaultValue"
     ```
 
-    <a name="typescript--function-return-type"></a>
-  - [30.4](#typescript--function-return-type) Explicitly define return types on functions.
-
-    Explicit types for function return values makes it clear to any calling code what type is returned. This ensures that the return value is assigned to a variable of the correct type; or in the case where there is no return value, that the calling code doesn't try to use the undefined value when it shouldn't.
-
-    ```ts
-    // bad - implicit return type
-    const format = (value: number) => {
-      return String(value);
-    }
-
-    // good - explicit return type
-    const format = (value: number): string => {
-      return String(value);
-    }
-
-    ```
-
-    <a name="typescript--type-prefix"></a>
-  - [30.5](#typescript--type-prefix) Do not add prefixes to types and interfaces.
+  <a name="typescript--type-prefix"></a>
+  - [30.6](#typescript--type-prefix) Do not add prefixes to types and interfaces.
 
     Types and interfaces should have descriptive, distinct names.
     It is not necessary to prefix types and interfaces when they are named appropriately.
@@ -3724,8 +3785,8 @@ Other Style Guides
       type ButtonType = 'primary' | 'secondary';
     ```
 
-    <a name="typescript--type-vs-interface"></a>
-  - [30.6](#typescript--type-vs-interface) `type` vs `interface`.
+  <a name="typescript--type-vs-interface"></a>
+  - [30.7](#typescript--type-vs-interface) `type` vs `interface`.
 
     Use `interface` instead of `type` for object-like types, wherever possible. Interfaces perform better.
 
@@ -3764,8 +3825,8 @@ Other Style Guides
       }
     ```
 
-    <a name="typescript--export-types"></a>
-  - [30.7](#typescript--export-types) Export types only when they are part of the public API
+  <a name="typescript--export-types"></a>
+  - [30.8](#typescript--export-types) Export types only when they are part of the public API
 
     ```ts
       // This should be exported because render function is exported.
@@ -3785,8 +3846,8 @@ Other Style Guides
       const format = (data: FormatData) => data.text;
     ```
 
-    <a name="typescript--using-modifiers"></a>
-  - [30.8](#typescript--using-modifiers) Using modifiers
+  <a name="typescript--using-modifiers"></a>
+  - [30.9](#typescript--using-modifiers) Using modifiers
 
     Access modifiers is a tool to help you to prevent accidentally breaking encapsulation. Ask yourself if you intend the member to be something that's internal to the class, class hierarchy or public, and choose access level accordingly.
 
@@ -3810,8 +3871,8 @@ Other Style Guides
       }
     ```
 
-    <a name="typescript--property-order"></a>
-  - [30.9](#typescript--property-order) Property order
+  <a name="typescript--property-order"></a>
+  - [30.10](#typescript--property-order) Property order
 
     In object literals, prefer the same property order as in the interface declaration.
 
