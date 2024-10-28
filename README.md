@@ -6,8 +6,6 @@ Based on Airbnb [JavaScript Style Guide](https://github.com/airbnb/javascript).
 
 Other Style Guides
 
-  - [React](react/)
-  - [CSS-in-JavaScript](css-in-javascript/)
   - [CSS & Sass](https://github.com/gotoandplay/css)
 
 ## Types
