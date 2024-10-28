@@ -4,14 +4,6 @@ Based on Airbnb [JavaScript Style Guide](https://github.com/airbnb/javascript).
 
 *A mostly reasonable approach to JavaScript*
 
-> **Note**: this guide assumes you are using [Babel](https://babeljs.io), and requires that you use [babel-preset-airbnb](https://npmjs.com/babel-preset-airbnb) or the equivalent. It also assumes you are installing shims/polyfills in your app, with [airbnb-browser-shims](https://npmjs.com/airbnb-browser-shims) or the equivalent.
-
-[![Downloads](https://img.shields.io/npm/dm/eslint-config-airbnb.svg)](https://www.npmjs.com/package/eslint-config-airbnb)
-[![Downloads](https://img.shields.io/npm/dm/eslint-config-airbnb-base.svg)](https://www.npmjs.com/package/eslint-config-airbnb-base)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/airbnb/javascript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-This guide is available in other languages too. See [Translation](#translation)
-
 Other Style Guides
 
   - [React](react/)
@@ -39,8 +31,6 @@ Other Style Guides
 
     console.log(foo, bar); // => 1, 9
     ```
-
-    - Symbols and BigInts cannot be faithfully polyfilled, so they should not be used when targeting browsers/environments that don’t support them natively.
 
   <a name="types--complex"></a><a name="1.2"></a>
   - [1.2](#types--complex)  **Complex**: When you access a complex type you work on a reference to its value.
@@ -752,19 +742,32 @@ Other Style Guides
     ```
 
   <a name="functions--mutate-params"></a><a name="7.13"></a>
-  - [7.13](#functions--mutate-params) Never mutate parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
+  - [7.13](#functions--mutate-params) Avoid mutating parameters. eslint: [`no-param-reassign`](https://eslint.org/docs/rules/no-param-reassign.html)
 
     > Why? Manipulating objects passed in as parameters can cause unwanted variable side effects in the original caller.
 
     ```javascript
-    // bad
-    function f1(obj) {
-      obj.key = 1;
+    // bad - the caller wouldn't expect order to be modified
+    function isFree(order) {
+        order.total = calculateTotal(order);
+        return order.total === 0;
     }
 
     // good
-    function f2(obj) {
-      const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1;
+    function isFree(order) {
+        const total = calculateTotal(order);
+        return total === 0;
+    }
+    ```
+
+    > Exceptions are allowed if they are communicated clearly.
+
+    ```javascript
+    // good - the name makes it clear that we modify the lineItem
+    function setLineItemTotals(lineItem, totalWithoutVat) {
+        lineItem.totalWithoutVat = totalWithoutVat;
+        lineItem.vatAmount = calculateVat(totalWithoutVat);
+        lineItem.totalWithVat = totalWithoutVat + lineItem.vatAmount;
     }
     ```
 
@@ -1376,26 +1379,9 @@ Other Style Guides
     import barCss from 'bar.css';
     ```
 
-  <a name="modules--import-extensions"></a>
-  - [10.9](#modules--import-extensions) Do not include JavaScript filename extensions
- eslint: [`import/extensions`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.md)
-    > Why? Including extensions inhibits refactoring, and inappropriately hardcodes implementation details of the module you're importing in every consumer.
-
-    ```javascript
-    // bad
-    import foo from './foo.js';
-    import bar from './bar.jsx';
-    import baz from './baz/index.jsx';
-
-    // good
-    import foo from './foo';
-    import bar from './bar';
-    import baz from './baz';
-    ```
-
 ## Iterators and Generators
 
-  <a name="iterators--nope"></a><a name="11.1"></a>
+  <a name="iterators--nope"></a>
   - [11.1](#iterators--nope) Don’t use iterators. Prefer JavaScript’s higher-order functions instead of loops like `for-in` or `for-of`. eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
 
     > Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.
@@ -1439,13 +1425,8 @@ Other Style Guides
     const increasedByOne = numbers.map((num) => num + 1);
     ```
 
-  <a name="generators--nope"></a><a name="11.2"></a>
-  - [11.2](#generators--nope) Don’t use generators for now.
-
-    > Why? They don’t transpile well to ES5.
-
   <a name="generators--spacing"></a>
-  - [11.3](#generators--spacing) If you must use generators, or if you disregard [our advice](#generators--nope), make sure their function signature is spaced properly. eslint: [`generator-star-spacing`](https://eslint.org/docs/rules/generator-star-spacing)
+  - [11.2](#generators--spacing) Make sure the function signature of generators is spaced properly. eslint: [`generator-star-spacing`](https://eslint.org/docs/rules/generator-star-spacing)
 
     > Why? `function` and `*` are part of the same conceptual keyword - `*` is not a modifier for `function`, `function*` is a unique construct, different from `function`.
 
@@ -2012,18 +1993,49 @@ Other Style Guides
 
     ```javascript
     // bad
-    const foo = a ? a : b;
     const bar = c ? true : false;
     const baz = c ? false : true;
+    const foo = a ? a : b;
 
     // good
-    const foo = a || b;
     const bar = !!c;
     const baz = !c;
+
+    // good if you want to use b when a is any falsy value (including 0 and '')
+    const foo = a || b;
+
+    // good if you want to use b ONLY when a is undefined or null
+    const foo = a ?? b;
+
+    // bad
+    const values = values ? values.map((value) => value.isValid()) : [];
+
+    // good (assuming values is either an array or undefined or null)
+    const values = (values ?? []).map((value) => value.isValid());
+    ```
+
+  <a name="comparison--optional-chaining"></a>
+  - [15.8](#comparison--optional-chaining) Use the optional chaining operator `?.` instead of a chain of `&&`.
+
+    ```javascript
+    // bad
+    const authorName = comment && comment.post && comment.post.author && comment.post.author.name;
+
+    // good
+    const authorName = comment?.post?.author?.name;
+
+    // bad
+    if (data && data.order && data.order.isCompleted()) {
+
+    // good
+    if (data?.order?.isCompleted()) {
+
+    // good
+    for (const item of data?.order?.getItems() ?? []) {
     ```
 
   <a name="comparison--no-mixed-operators"></a>
-  - [15.8](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators: `+`, `-`, and `**` since their precedence is broadly understood. We recommend enclosing `/` and `*` in parentheses because their precedence can be ambiguous when they are mixed.
+  - [15.9](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators: `+`, `-`, and `**` since their precedence is broadly understood. We recommend enclosing `/` and `*` in parentheses because their precedence can be ambiguous when they are mixed.
   eslint: [`no-mixed-operators`](https://eslint.org/docs/rules/no-mixed-operators.html)
 
     > Why? This improves readability and clarifies the developer’s intention.
@@ -2744,18 +2756,19 @@ Other Style Guides
 
     ```javascript
     // bad
-    const foo = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy;
+    const foo = someValue1 && someValue2 && someValue3 && someValue4 && someValue5 && someValue6 && someValue7;
 
     // bad
     $.ajax({ method: 'POST', url: 'https://airbnb.com/', data: { name: 'John' } }).done(() => console.log('Congratulations!')).fail(() => console.log('You have failed this city.'));
 
     // good
-    const foo = jsonData
-      && jsonData.foo
-      && jsonData.foo.bar
-      && jsonData.foo.bar.baz
-      && jsonData.foo.bar.baz.quux
-      && jsonData.foo.bar.baz.quux.xyzzy;
+    const foo = someValue1
+        && someValue2
+        && someValue3
+        && someValue4
+        && someValue5
+        && someValue6
+        && someValue7;
 
     // good
     $.ajax({
