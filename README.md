@@ -1242,7 +1242,7 @@ Other Style Guides
 
 ## Modules
 
-  <a name="modules--use-them"></a><a name="10.1"></a>
+  <a name="modules--use-them"></a>
   - [10.1](#modules--use-them) Always use modules (`import`/`export`) over a non-standard module system. You can always transpile to your preferred module system.
 
     > Why? Modules are the future, let’s start using the future now.
@@ -1254,44 +1254,29 @@ Other Style Guides
 
     // ok
     import AirbnbStyleGuide from './AirbnbStyleGuide';
-    export default AirbnbStyleGuide.es6;
+    export { AirbnbStyleGuide.es6 as es6 };
 
     // best
     import { es6 } from './AirbnbStyleGuide';
-    export default es6;
+    export { es6 };
     ```
 
-  <a name="modules--no-wildcard"></a><a name="10.2"></a>
-  - [10.2](#modules--no-wildcard) Do not use wildcard imports.
-
-    > Why? This makes sure you have a single default export.
-
-    ```javascript
-    // bad
-    import * as AirbnbStyleGuide from './AirbnbStyleGuide';
-
-    // good
-    import AirbnbStyleGuide from './AirbnbStyleGuide';
-    ```
-
-  <a name="modules--no-export-from-import"></a><a name="10.3"></a>
-  - [10.3](#modules--no-export-from-import) And do not export directly from an import.
+  <a name="modules--no-export-from-import"></a>
+  - [10.2](#modules--no-export-from-import) And do not export directly from an import.
 
     > Why? Although the one-liner is concise, having one clear way to import and one clear way to export makes things consistent.
 
     ```javascript
     // bad
-    // filename es6.js
-    export { es6 as default } from './AirbnbStyleGuide';
+    export { es6 } from './AirbnbStyleGuide';
 
     // good
-    // filename es6.js
     import { es6 } from './AirbnbStyleGuide';
-    export default es6;
+    export { es6 };
     ```
 
   <a name="modules--no-duplicate-imports"></a>
-  - [10.4](#modules--no-duplicate-imports) Only import from a path in one place.
+  - [10.3](#modules--no-duplicate-imports) Only import from a path in one place.
  eslint: [`no-duplicate-imports`](https://eslint.org/docs/rules/no-duplicate-imports)
     > Why? Having multiple lines that import from the same path can make code harder to maintain.
 
@@ -1312,7 +1297,7 @@ Other Style Guides
     ```
 
   <a name="modules--no-mutable-exports"></a>
-  - [10.5](#modules--no-mutable-exports) Do not export mutable bindings.
+  - [10.4](#modules--no-mutable-exports) Do not export mutable bindings.
  eslint: [`import/no-mutable-exports`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-mutable-exports.md)
     > Why? Mutation should be avoided in general, but in particular when exporting mutable bindings. While this technique may be needed for some special cases, in general, only constant references should be exported.
 
@@ -1327,7 +1312,7 @@ Other Style Guides
     ```
 
   <a name="modules--no-default-export"></a>
-  - [10.6](#modules--no-default-export) Avoid default exports, always use named exports.
+  - [10.5](#modules--no-default-export) Avoid default exports, always use named exports.
  eslint: [`import/no-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md)
     > Why? There will almost always be named exports in a project, especially in TypeScript code where a single file often exports one or more types in addition to the primary value. For the sake of consistency, avoid mixing default and named exports/imports.
     > Named exports also provide unambiguous variable names for automatic imports, whereas additional conventions are needed with default exports.
@@ -1341,7 +1326,7 @@ Other Style Guides
     ```
 
   <a name="modules--imports-first"></a>
-  - [10.7](#modules--imports-first) Put all `import`s above non-import statements.
+  - [10.6](#modules--imports-first) Put all `import`s above non-import statements.
  eslint: [`import/first`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md)
     > Why? Since `import`s are hoisted, keeping them all at the top prevents surprising behavior.
 
@@ -1360,7 +1345,7 @@ Other Style Guides
     ```
 
   <a name="modules--multiline-imports-over-newlines"></a>
-  - [10.8](#modules--multiline-imports-over-newlines) Multiline imports should be indented just like multiline array and object literals.
+  - [10.7](#modules--multiline-imports-over-newlines) Multiline imports should be indented just like multiline array and object literals.
  eslint: [`object-curly-newline`](https://eslint.org/docs/rules/object-curly-newline)
 
     > Why? The curly braces follow the same indentation rules as every other curly brace block in the style guide, as do the trailing commas.
@@ -1380,7 +1365,7 @@ Other Style Guides
     ```
 
   <a name="modules--no-webpack-loader-syntax"></a>
-  - [10.9](#modules--no-webpack-loader-syntax) Disallow Webpack loader syntax in module import statements.
+  - [10.8](#modules--no-webpack-loader-syntax) Disallow Webpack loader syntax in module import statements.
  eslint: [`import/no-webpack-loader-syntax`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-webpack-loader-syntax.md)
     > Why? Since using Webpack syntax in the imports couples the code to a module bundler. Prefer using the loader syntax in `webpack.config.js`.
 
@@ -2500,14 +2485,14 @@ Other Style Guides
     // bad
     import { es6 } from './AirbnbStyleGuide';
       // ...
-    export default es6;
+    export { es6 };
     ```
 
     ```javascript
     // bad
     import { es6 } from './AirbnbStyleGuide';
       // ...
-    export default es6;↵
+    export { es6 };↵
     ↵
     ```
 
@@ -2515,7 +2500,7 @@ Other Style Guides
     // good
     import { es6 } from './AirbnbStyleGuide';
       // ...
-    export default es6;↵
+    export { es6 };↵
     ```
 
   <a name="whitespace--chains"></a><a name="18.6"></a>
@@ -3167,7 +3152,7 @@ Other Style Guides
 
 ## Naming Conventions
 
-  <a name="naming--descriptive"></a><a name="22.1"></a>
+  <a name="naming--descriptive"></a>
   - [23.1](#naming--descriptive) Avoid single letter names. Be descriptive with your naming. eslint: [`id-length`](https://eslint.org/docs/rules/id-length)
 
     ```javascript
@@ -3182,7 +3167,7 @@ Other Style Guides
     }
     ```
 
-  <a name="naming--camelCase"></a><a name="22.2"></a>
+  <a name="naming--camelCase"></a>
   - [23.2](#naming--camelCase) Use camelCase when naming objects, functions, and instances. eslint: [`camelcase`](https://eslint.org/docs/rules/camelcase.html)
 
     ```javascript
@@ -3196,7 +3181,7 @@ Other Style Guides
     function thisIsMyFunction() {}
     ```
 
-  <a name="naming--PascalCase"></a><a name="22.3"></a>
+  <a name="naming--PascalCase"></a>
   - [23.3](#naming--PascalCase) Use PascalCase only when naming constructors or classes. eslint: [`new-cap`](https://eslint.org/docs/rules/new-cap.html)
 
     ```javascript
@@ -3221,7 +3206,7 @@ Other Style Guides
     });
     ```
 
-  <a name="naming--leading-underscore"></a><a name="22.4"></a>
+  <a name="naming--leading-underscore"></a>
   - [23.4](#naming--leading-underscore) Do not use trailing or leading underscores. eslint: [`no-underscore-dangle`](https://eslint.org/docs/rules/no-underscore-dangle.html)
 
     > Why? JavaScript does not have the concept of privacy in terms of properties or methods. Although a leading underscore is a common convention to mean “private”, in fact, these properties are fully public, and as such, are part of your public API contract. This convention might lead developers to wrongly think that a change won’t count as breaking, or that tests aren’t needed. tl;dr: if you want something to be “private”, it must not be observably present.
@@ -3241,7 +3226,7 @@ Other Style Guides
     firstNames.set(this, 'Panda');
     ```
 
-  <a name="naming--self-this"></a><a name="22.5"></a>
+  <a name="naming--self-this"></a>
   - [23.5](#naming--self-this) Don’t save references to `this`. Use arrow functions or [Function#bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind).
 
     ```javascript
@@ -3269,55 +3254,8 @@ Other Style Guides
     }
     ```
 
-  <a name="naming--filename-matches-export"></a><a name="22.6"></a>
-  - [23.6](#naming--filename-matches-export) A base filename should exactly match the name of its default export.
-
-    ```javascript
-    // file 1 contents
-    class CheckBox {
-      // ...
-    }
-    export default CheckBox;
-
-    // file 2 contents
-    export default function fortyTwo() { return 42; }
-
-    // file 3 contents
-    export default function insideDirectory() {}
-
-    // in some other file
-    // bad
-    import CheckBox from './checkBox'; // PascalCase import/export, camelCase filename
-    import FortyTwo from './FortyTwo'; // PascalCase import/filename, camelCase export
-    import InsideDirectory from './InsideDirectory'; // PascalCase import/filename, camelCase export
-
-    // bad
-    import CheckBox from './check_box'; // PascalCase import/export, snake_case filename
-    import forty_two from './forty_two'; // snake_case import/filename, camelCase export
-    import inside_directory from './inside_directory'; // snake_case import, camelCase export
-    import index from './inside_directory/index'; // requiring the index file explicitly
-    import insideDirectory from './insideDirectory/index'; // requiring the index file explicitly
-
-    // good
-    import CheckBox from './CheckBox'; // PascalCase export/import/filename
-    import fortyTwo from './fortyTwo'; // camelCase export/import/filename
-    import insideDirectory from './insideDirectory'; // camelCase export/import/directory name/implicit "index"
-    // ^ supports both insideDirectory.js and insideDirectory/index.js
-    ```
-
-  <a name="naming--camelCase-default-export"></a><a name="22.7"></a>
-  - [23.7](#naming--camelCase-default-export) Use camelCase when you export-default a function. Your filename should be identical to your function’s name.
-
-    ```javascript
-    function makeStyleGuide() {
-      // ...
-    }
-
-    export default makeStyleGuide;
-    ```
-
-  <a name="naming--PascalCase-singleton"></a><a name="22.8"></a>
-  - [23.8](#naming--PascalCase-singleton) Use PascalCase when you export a constructor / class / singleton / function library / bare object.
+  <a name="naming--PascalCase-singleton"></a>
+  - [23.6](#naming--PascalCase-singleton) Use PascalCase when you export a constructor / class / singleton / function library / bare object.
 
     ```javascript
     const AirbnbStyleGuide = {
@@ -3325,7 +3263,7 @@ Other Style Guides
       },
     };
 
-    export default AirbnbStyleGuide;
+    export { AirbnbStyleGuide };
     ```
 
   <a name="naming--Acronyms-and-Initialisms"></a>
